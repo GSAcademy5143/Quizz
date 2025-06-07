@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    .quiz-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #333;
+    }
+    .question {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .options button {
+      display: block;
+      margin: 5px 0;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .options button:hover {
+      background-color: #e0e0e0;
+    }
+    .result {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-container">
+    <h2>Quick Quiz</h2>
+    <div id="quiz">
+      <div class="question" id="question"></div>
+      <div class="options" id="options"></div>
+    </div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "What is the capital of France?",
+        options: ["Berlin", "Paris", "Madrid", "Rome"],
+        answer: "Paris"
+      },
+      {
+        question: "Which planet is known as the Red Planet?",
+        options: ["Venus", "Saturn", "Mars", "Jupiter"],
+        answer: "Mars"
+      },
+      {
+        question: "What is 9 + 10?",
+        options: ["19", "20", "21", "18"],
+        answer: "19"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      if (currentQuestion < quizData.length) {
+        const q = quizData[currentQuestion];
+        document.getElementById("question").innerText = q.question;
+        const optionsContainer = document.getElementById("options");
+        optionsContainer.innerHTML = "";
+        q.options.forEach(option => {
+          const btn = document.createElement("button");
+          btn.innerText = option;
+          btn.onclick = () => checkAnswer(option);
+          optionsContainer.appendChild(btn);
+        });
+      } else {
+        document.getElementById("quiz").style.display = "none";
+        document.getElementById("result").innerText = `You scored ${score} out of ${quizData.length}`;
+      }
+    }
+
+    function checkAnswer(selected) {
+      if (selected === quizData[currentQuestion].answer) {
+        score++;
+      }
+      currentQuestion++;
+      loadQuestion();
+    }
+
+    loadQuestion();
+  </script>
+
+</body>
+</html>
